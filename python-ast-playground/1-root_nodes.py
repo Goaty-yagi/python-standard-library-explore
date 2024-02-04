@@ -13,9 +13,9 @@ code = """
 # type: ignore
 x = 1
 """
-parced_ast = ast.parse(code, type_comments=True)  # returns Module obj
+parsed_ast = ast.parse(code, type_comments=True)  # returns Module obj
 module_obj = ast.Module(code)  # Do not do this.
-print(ast.dump(parced_ast, indent=4))
+print(ast.dump(parsed_ast, indent=4))
 
 """
 The print above returns
@@ -28,7 +28,7 @@ Module(
     type_ignores=[
         TypeIgnore(lineno=2, tag='')])
 """
-print(parced_ast._fields)  # (body, type_ignores)
+print(parsed_ast._fields)  # (body, type_ignores)
 """
 body: A list of AST nodes representing the statements and expressions within the module.
 type_ignores: A list of type ignore instance includes comments associated with the module.(mainly designed for typing)
@@ -55,8 +55,8 @@ ast.Expression instance.body in not list
 """
 
 code = "1 + 3"
-parced_ast = ast.parse(code , mode='eval')
-print(ast.dump(parced_ast, indent=4))
+parsed_ast = ast.parse(code, mode='eval')
+print(ast.dump(parsed_ast, indent=4))
 
 code = 'h = \
     90'
@@ -64,7 +64,7 @@ code = 'h = \
 
 
 print()
-print("---- ast.Expression ----")
+print("---- ast.Interactive ----")
 print()
 
 """ class ast.Interactive(body) 
