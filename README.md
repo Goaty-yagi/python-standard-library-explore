@@ -26,4 +26,5 @@ This project follows the Pycodestyle (formerly known as pep8) code style guideli
    ```
 
 ## Bugs
-Report bugs on the [GitHub Issues](https://github.com/Goaty-yagi/holbertonschool-higher_level_programming/issues) page.
+Report bugs on the [GitHub Issues](https://github.com/Goaty-yagi/python-standard-library-explore/issues) page.
+
