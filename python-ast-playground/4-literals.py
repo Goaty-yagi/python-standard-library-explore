@@ -35,8 +35,8 @@ parsed_ast =  ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
 
 
-# format method will be Constant instance
+# format method will be Call instance
 variable = 90
-content = "{}".format(variable)
+content = '"{:%d}".format(variable)'
 parsed_ast =  ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
