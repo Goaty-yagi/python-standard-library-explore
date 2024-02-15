@@ -8,6 +8,10 @@ Contents:
 - class ast.BoolOp(op, values)
 - class ast.Compare(left, ops, comparators)
 - class ast.Call(func, args, keywords)
+- class ast.keyword(arg, value)
+- class ast.IfExp(test, body, orelse)
+- class ast.Attribute(value, attr, ctx)
+- class ast.NamedExpr(target, value)
 """
 import ast
 
@@ -28,6 +32,9 @@ nodes, such as
 content = """def fun():
     return 'test'""" # doesn't have Expr instance
 parsed_ast =  ast.parse(content)
+print()
+print("--- Expr ---")
+print()
 print(ast.dump(parsed_ast, indent=4))
 
 
@@ -54,9 +61,10 @@ x = 5
 # UAdd
 content = "+5"
 parsed_ast =  ast.parse(content)
+print()
+print("--- UnaryOp ---")
+print()
 print(ast.dump(parsed_ast, indent=4))
-x = 1
-print(~x)
 
 # USub
 content = "-5"
@@ -99,6 +107,9 @@ Binary operator tokens.
 
 content = "2 + 8" 
 parsed_ast =  ast.parse(content) # op will be Add
+print()
+print("--- BinOp ---")
+print()
 print(ast.dump(parsed_ast, indent=4))
 
 # class ast.BoolOp(op, values)
@@ -143,6 +154,79 @@ parsed_ast =  ast.parse(content)
 # left will be 0
 # ops will be Gt and LtE
 # comparators will be 10 and 15
+print()
+print("--- Compare ---")
+print()
 print(ast.dump(parsed_ast, indent=4))
 
 # class ast.Call(func, args, keywords)
+"""
+func: is the function being called.
+args: positional arg(Name) and *args(Starred) will be here. 
+keywords: keyword args and **kwargs will be in Keyword class here.
+"""
+content = "func(c, a = b, *args, **kwargs)" 
+parsed_ast =  ast.parse(content)
+# func will be func
+# args will be c and args
+# keywords will a, kwargs
+print()
+print("--- Call ---")
+print()
+print(ast.dump(parsed_ast, indent=4))
+
+# class ast.keyword(arg, value)
+"""
+A keyword argument to a function call or class definition.
+arg: will be keyword name if there is. 
+value: is value.
+"""
+content = "func(a = b)" 
+parsed_ast =  ast.parse(content)
+# arg will be a
+# value will be b
+print()
+print("--- Keyword ---")
+print()
+print(ast.dump(parsed_ast, indent=4))
+
+# class ast.IfExp(test, body, orelse)
+"""
+This is for If Expression syntax like "1 if a == 0 else 2"
+test: will be a == 0(Compare class)
+body: will be 1
+orelse: will be 2
+"""
+
+content = "1 if a == 0 else 2" 
+parsed_ast =  ast.parse(content)
+print("--- IfExp ---")
+print(ast.dump(parsed_ast, indent=4))
+
+# class ast.Attribute(value, attr, ctx)
+"""
+attribute access like instance.width
+value: will be instance(typically Name)
+attr: will be width in this case
+ctx: is the same as Name one
+"""
+
+content = "instance.width" 
+parsed_ast =  ast.parse(content)
+print()
+print("--- Attribute ---")
+print()
+print(ast.dump(parsed_ast, indent=4))
+
+# class ast.NamedExpr(target, value)
+"""
+This is for walrus operator like result := n * 2
+target: result in this case
+value:  n * 2 (BinOp) in this case
+"""
+content = "print(result := n * 2)"
+parsed_ast =  ast.parse(content)
+print()
+print("--- NamedExpr ---")
+print()
+print(ast.dump(parsed_ast, indent=4))
