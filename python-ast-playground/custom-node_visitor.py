@@ -19,7 +19,10 @@ class CustomNodeVisitor(ast.NodeVisitor):
         Initializes the CustomNodeVisitor object.
         """
         self.sum = 0
+        self.attr_reset = False
+        self.last_node = None
         self.node_count = {}
+        self.format_values = []
 
     def visit(self, node: ast.AST, *args) -> dict[str: int] | None:
         """
@@ -32,7 +35,15 @@ class CustomNodeVisitor(ast.NodeVisitor):
         Returns:
         - None if no subset keys provided, or a dictionary containing counts for the specified subset keys.
         """
+        if self.attr_reset:
+            self.reset_attributes()
+        if self.last_node is None:
+            self.set_last_node(node)
+    
         super().visit(node)
+
+        if self.last_node is node:
+            self.attr_reset = True
         return self.get_counts_subset(*args) if len(args) else None
 
     def generic_visit(self, node: ast.AST) -> None:
@@ -61,6 +72,19 @@ class CustomNodeVisitor(ast.NodeVisitor):
                 temp_dict[key] = self.node_count[key]
         return temp_dict
 
+    def format_specifier_check(self, node, specifier):
+        if len(self.format_values):
+            return any(specifier in val for val in self.format_values)
+
+    def set_last_node(self, node):
+        # Assume that the visitation process starts with the visit method.
+        self.last_node = list(ast.iter_child_nodes(node.body[-1]))[-1]
+
+    def reset_attributes(self):
+        for key in vars(self):
+            print("KEY:", key, "ATTR", CustomNodeVisitor().__getattribute__(key))
+            setattr(self, key, CustomNodeVisitor().__getattribute__(key))
+
     # *** visit_classname methods from here ***
 
     def visit_Call(self, node: ast.AST) -> None:
@@ -74,6 +98,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
             # Handling calls to the method.
             self.node_count[node.func.attr] = self.node_count.get(
                 node.func.attr, 0) + 1
+            if node.func.attr == 'format':
+                self.format_values.append(node.func.value.value)
         elif isinstance(node.func, ast.Name):
             # Assuming simple function calls.
             function_name = node.func.id
@@ -123,14 +149,16 @@ def add_numbers(a: str, b: str):
         pass
     return a + b
 numbers(1,2)
-print("{}, {}".format(a, b))
+print("{}, ko {%d}".format(a, b))
 while(True):
     a.method(te)
 """
 
 tree = ast.parse(code, type_comments=True)
 visitor = CustomNodeVisitor()
-print(visitor.visit(tree))
+print(ast.dump(tree, indent=4))
+print(visitor.visit(tree, ''))
 print(visitor.node_count)
 print(visitor.sum)
 print(visitor.get_counts_subset('while', 'import', 'loop'))
+print(visitor.format_specifier_check(tree, '%d'))
