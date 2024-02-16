@@ -48,7 +48,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         Raises:
         - AttributeError: This attribute is read-only.
         """
-        raise AttributeError(CustomNodeVisitor.__read_only_error_text("sum"))
+        raise AttributeError(CustomNodeVisitor._read_only_error_text("sum"))
 
     @property
     def attr_reset(self) -> None:
@@ -59,7 +59,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("attr_reset"))
+            CustomNodeVisitor._not_allowed_error_text("attr_reset"))
 
     @attr_reset.setter
     def attr_reset(self, value: any) -> None:
@@ -73,7 +73,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("attr_reset"))
+            CustomNodeVisitor._not_allowed_error_text("attr_reset"))
 
     @property
     def last_node(self) -> None:
@@ -84,7 +84,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("last_node"))
+            CustomNodeVisitor._not_allowed_error_text("last_node"))
 
     @last_node.setter
     def last_node(self, value: any) -> None:
@@ -98,7 +98,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("last_node"))
+            CustomNodeVisitor._not_allowed_error_text("last_node"))
 
     @property
     def format_values(self) -> None:
@@ -109,7 +109,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("format_values"))
+            CustomNodeVisitor._not_allowed_error_text("format_values"))
 
     @format_values.setter
     def format_values(self, value: any) -> None:
@@ -123,10 +123,10 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - ValueError: Not allowed to access.
         """
         raise ValueError(
-            CustomNodeVisitor.__not_allowed_error_text("format_values"))
+            CustomNodeVisitor._not_allowed_error_text("format_values"))
 
     @staticmethod
-    def __not_allowed_error_text(attr: str) -> str:
+    def _not_allowed_error_text(attr: str) -> str:
         """
         Static method to provide error text for not allowed attribute access.
 
@@ -139,7 +139,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         return f"You are not allowed to access '{attr}' attribute."
 
     @staticmethod
-    def __read_only_error_text(attr: str) -> str:
+    def _read_only_error_text(attr: str) -> str:
         """
         Staticmethod to provide error text for read_only.
 
