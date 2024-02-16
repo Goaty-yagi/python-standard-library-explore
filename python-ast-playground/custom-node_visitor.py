@@ -312,6 +312,39 @@ class CustomNodeVisitor(ast.NodeVisitor):
             "return", 0) + 1
         self.generic_visit(node)
 
+    def visit_Assign(self, node):
+        """
+        Visits an Assign node and counts occurrences.
+
+        Parameters:
+        - node: Assign node in the AST.
+        """
+        self.node_count["assign"] = self.node_count.get(
+            "assign", 0) + 1
+        self.generic_visit(node)
+
+    def visit_AnnAssign(self, node):
+        """
+        Visits an AnnAssign node and counts occurrences.
+
+        Parameters:
+        - node: AnnAssign node in the AST.
+        """
+        self.node_count["ann_assign"] = self.node_count.get(
+            "ann_assign", 0) + 1
+        self.generic_visit(node)
+
+    def visit_AugAssign(self, node):
+        """
+        Visits an AugAssign node and counts occurrences.
+
+        Parameters:
+        - node: AugAssign node in the AST.
+        """
+        self.node_count["aug_assign"] = self.node_count.get(
+            "aug_assign", 0) + 1
+        self.generic_visit(node)
+
 
 code = """
 import ast
@@ -320,7 +353,9 @@ return
 '''
 def add_numbers(a: str, b: str):
     def test():
-        pass
+        a = b
+        a += 1
+        a:int = b
     return a + b
 numbers(1,2)
 print("{}, ko {%d}".format(a, b))
