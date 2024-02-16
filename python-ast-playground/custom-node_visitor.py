@@ -11,7 +11,10 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     Attributes:
     - sum: Total count of nodes visited.
+    - attr_reset: Boolean to check if attributes need to reset. 
+    - last_node: Last node of the initial node.
     - node_count: Dictionary to store counts of different node types.
+    - format_values: List to store format value to check specifiers.
     """
 
     def __init__(self) -> None:
@@ -39,7 +42,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
             self.reset_attributes()
         if self.last_node is None:
             self.set_last_node(node)
-    
+
         super().visit(node)
 
         if self.last_node is node:
@@ -72,17 +75,40 @@ class CustomNodeVisitor(ast.NodeVisitor):
                 temp_dict[key] = self.node_count[key]
         return temp_dict
 
-    def format_specifier_check(self, node, specifier):
+    def format_specifier_check(self, specifier: str = "", node: ast.AST = {},):
+        """
+        Checks if a specific format specifier is present in any of the format values.
+
+        Parameters:
+        - node: AST node being processed.
+        - specifier: Format specifier to check.
+
+        Returns:
+        - True if the specifier is present in any format value, False otherwise.
+        """
+        if specifier == '':
+            raise ValueError("specifier argument is missing.")
+        if node:
+            self.visit(node)
         if len(self.format_values):
             return any(specifier in val for val in self.format_values)
 
-    def set_last_node(self, node):
+    def set_last_node(self, node) -> None:
+        """
+        Sets the last_node attribute to the last child node of the given AST node's body.
+
+        Parameters:
+        - node: AST node to determine the last child node.
+        """
+
         # Assume that the visitation process starts with the visit method.
         self.last_node = list(ast.iter_child_nodes(node.body[-1]))[-1]
 
-    def reset_attributes(self):
+    def reset_attributes(self) -> None:
+        """
+        Resets all attributes of the CustomNodeVisitor instance to their default values.
+        """
         for key in vars(self):
-            print("KEY:", key, "ATTR", CustomNodeVisitor().__getattribute__(key))
             setattr(self, key, CustomNodeVisitor().__getattribute__(key))
 
     # *** visit_classname methods from here ***
@@ -161,4 +187,4 @@ print(visitor.visit(tree, ''))
 print(visitor.node_count)
 print(visitor.sum)
 print(visitor.get_counts_subset('while', 'import', 'loop'))
-print(visitor.format_specifier_check(tree, '%d'))
+print(visitor.format_specifier_check("mo", node=tree))
