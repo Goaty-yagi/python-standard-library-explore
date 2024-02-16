@@ -205,7 +205,8 @@ print(ast.dump(parsed_ast, indent=4))
 
 # class ast.Attribute(value, attr, ctx)
 """
-attribute access like instance.width
+attribute access like instance.width. 
+method call will be here in Call class
 value: will be instance(typically Name)
 attr: will be width in this case
 ctx: is the same as Name one
