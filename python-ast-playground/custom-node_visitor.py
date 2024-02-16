@@ -21,11 +21,135 @@ class CustomNodeVisitor(ast.NodeVisitor):
         """
         Initializes the CustomNodeVisitor object.
         """
-        self.sum = 0
-        self.attr_reset = False
-        self.last_node = None
+        self.__sum = 0
+        self.__attr_reset = False
+        self.__last_node = None
         self.node_count = {}
-        self.format_values = []
+        self.__format_values = []
+
+    @property
+    def sum(self) -> int:
+        """
+        Property method to get the value of the 'sum' attribute.
+
+        Returns:
+        - The total count of nodes visited.
+        """
+        return self.__sum
+
+    @sum.setter
+    def sum(self, value: any):
+        """
+        Setter method for 'sum' attribute, raise Attribute error.
+
+        Parameters:
+        - value(any): The value to set (ignored).
+
+        Raises:
+        - AttributeError: This attribute is read-only.
+        """
+        raise AttributeError(CustomNodeVisitor.__read_only_error_text("sum"))
+
+    @property
+    def attr_reset(self) -> None:
+        """
+        Property method to raise ValueError for "attr_reset" attribute.
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("attr_reset"))
+
+    @attr_reset.setter
+    def attr_reset(self, value: any) -> None:
+        """
+        Setter method to raise ValueError for "attr_reset" attribute.
+
+        Parameters:
+        - value(any): The value to set (ignored).
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("attr_reset"))
+
+    @property
+    def last_node(self) -> None:
+        """
+        Property method to raise ValueError for "last_node" attribute.
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("last_node"))
+
+    @last_node.setter
+    def last_node(self, value: any) -> None:
+        """
+        Property method to raise ValueError for "last_node" attribute.
+
+        Parameters:
+        - value: The value to set (ignored).
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("last_node"))
+
+    @property
+    def format_values(self) -> None:
+        """
+        Property method to raise ValueError for "format_values" attribute.
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("format_values"))
+
+    @format_values.setter
+    def format_values(self, value: any) -> None:
+        """
+        Property method to raise ValueError for "format_values" attribute.
+
+        Parameters:
+        - value(any): The value to set (ignored).
+
+        Raises:
+        - ValueError: Not allowed to access.
+        """
+        raise ValueError(
+            CustomNodeVisitor.__not_allowed_error_text("format_values"))
+
+    @staticmethod
+    def __not_allowed_error_text(attr: str) -> str:
+        """
+        Static method to provide error text for not allowed attribute access.
+
+        Parameters:
+        - attr(str): The attribute name.
+
+        Returns:
+        - Error message string.
+        """
+        return f"You are not allowed to access '{attr}' attribute."
+
+    @staticmethod
+    def __read_only_error_text(attr: str) -> str:
+        """
+        Staticmethod to provide error text for read_only.
+
+        Parameters:
+        - attr(str): The attribute name.
+
+        Return:
+        - Error message string. 
+        """
+        return f"Attribute '{attr}' is read-only."
 
     def visit(self, node: ast.AST, *args) -> dict[str: int] | None:
         """
@@ -38,15 +162,15 @@ class CustomNodeVisitor(ast.NodeVisitor):
         Returns:
         - None if no subset keys provided, or a dictionary containing counts for the specified subset keys.
         """
-        if self.attr_reset:
+        if self.__attr_reset:
             self.reset_attributes()
-        if self.last_node is None:
+        if self.__last_node is None:
             self.set_last_node(node)
 
         super().visit(node)
 
-        if self.last_node is node:
-            self.attr_reset = True
+        if self.__last_node is node:
+            self.__attr_reset = True
         return self.get_counts_subset(*args) if len(args) else None
 
     def generic_visit(self, node: ast.AST) -> None:
@@ -56,7 +180,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         Parameters:
         - node: AST node to visit.
         """
-        self.sum += 1
+        self.__sum += 1
         super().generic_visit(node)
 
     def get_counts_subset(self, *key_list: list[str]) -> dict[str: int]:
@@ -90,8 +214,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
             raise ValueError("specifier argument is missing.")
         if node:
             self.visit(node)
-        if len(self.format_values):
-            return any(specifier in val for val in self.format_values)
+        if len(self.__format_values):
+            return any(specifier in val for val in self.__format_values)
 
     def set_last_node(self, node) -> None:
         """
@@ -102,7 +226,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
         """
 
         # Assume that the visitation process starts with the visit method.
-        self.last_node = list(ast.iter_child_nodes(node.body[-1]))[-1]
+        self.__last_node = list(ast.iter_child_nodes(node.body[-1]))[-1]
 
     def reset_attributes(self) -> None:
         """
@@ -125,7 +249,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
             self.node_count[node.func.attr] = self.node_count.get(
                 node.func.attr, 0) + 1
             if node.func.attr == 'format':
-                self.format_values.append(node.func.value.value)
+                self.__format_values.append(node.func.value.value)
         elif isinstance(node.func, ast.Name):
             # Assuming simple function calls.
             function_name = node.func.id
@@ -166,10 +290,34 @@ class CustomNodeVisitor(ast.NodeVisitor):
             "import", 0) + 1
         self.generic_visit(node)
 
+    def visit_Try(self, node):
+        """
+        Visits an Import node and counts occurrences.
+
+        Parameters:
+        - node: Import node in the AST.
+        """
+        self.node_count["try"] = self.node_count.get(
+            "try", 0) + 1
+        self.generic_visit(node)
+
+    def visit_Return(self, node):
+        """
+        Visits an Import node and counts occurrences.
+
+        Parameters:
+        - node: Import node in the AST.
+        """
+        self.node_count["return"] = self.node_count.get(
+            "return", 0) + 1
+        self.generic_visit(node)
+
 
 code = """
 import ast
-
+'''
+return
+'''
 def add_numbers(a: str, b: str):
     def test():
         pass
@@ -178,6 +326,10 @@ numbers(1,2)
 print("{}, ko {%d}".format(a, b))
 while(True):
     a.method(te)
+    try:
+        pass
+    except:
+        pass
 """
 
 tree = ast.parse(code, type_comments=True)
