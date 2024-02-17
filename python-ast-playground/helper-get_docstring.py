@@ -42,3 +42,4 @@ func_node = tree.body[2]
 func_node = ast.get_docstring(func_node, clean=False)  # clean=False
 print(func_node)  # return with whitespaces and offset spaces
 print(len(func_node))  # 35
+print(ast.dump(tree, indent=4))
