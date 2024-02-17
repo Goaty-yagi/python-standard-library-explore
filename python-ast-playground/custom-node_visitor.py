@@ -207,7 +207,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
         self.__sum += 1
         super().generic_visit(node)
 
-    def get_counts_subset(self, *key_list: list[str], node=None) -> dict[str: int]:
+    def get_counts_subset(
+            self, *key_list: list[str], node=None) -> dict[str: int]:
         """
         Returns a dictionary containing counts for
         the specified subset of keys.
@@ -266,14 +267,28 @@ class CustomNodeVisitor(ast.NodeVisitor):
         for key in vars(self):
             setattr(self, key, CustomNodeVisitor().__getattribute__(key))
 
-    def set_doc(self, node: ast.AST, cls_name: str = None, mod_name: str = None) -> None:
-        self.doc_list.append(
-            {**self.__doc_d_prototype, "class": cls_name if cls_name else node.__class__.__name__,
-             "name": mod_name if mod_name else node.name, "doc": ast.get_docstring(node)})
+    def set_doc(
+            self, node: ast.AST,
+            cls_name: str = None,
+            mod_name: str = None
+    ) -> None:
+        self.doc_list.append({
+            **self.__doc_d_prototype,
+            "class": cls_name if cls_name else node.__class__.__name__,
+            "name": mod_name if mod_name else node.name,
+            "doc": ast.get_docstring(node)})
 
     # *** visit_classname methods from here ***
 
     def visit_Module(self, node):
+        """
+        Visits a Module node and counts method or function calls.
+        If modele doc doesn't start from the first line,
+        None will be set.
+
+        Parameters:
+        - node: Module node in the AST.
+        """
         if self.__attr_reset:
             self.reset_attributes()
         if self.__last_node is None:
