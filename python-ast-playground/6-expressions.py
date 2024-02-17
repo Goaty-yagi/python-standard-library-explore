@@ -18,8 +18,8 @@ import ast
 # class ast.Expr(value)
 """
 class ast.Expr(value)
-When an expression, such as a function call, 
-appears as a statement by itself with its 
+When an expression, such as a function call,
+appears as a statement by itself with its
 return value not used or stored, it is wrapped
 in this container. value holds one of the other
 nodes, such as
@@ -30,8 +30,8 @@ nodes, such as
 - YieldFrom
 """
 content = """def fun():
-    return 'test'""" # doesn't have Expr instance
-parsed_ast =  ast.parse(content)
+    return 'test'"""  # doesn't have Expr instance
+parsed_ast = ast.parse(content)
 print()
 print("--- Expr ---")
 print()
@@ -39,11 +39,11 @@ print(ast.dump(parsed_ast, indent=4))
 
 
 content = """def fun():
-    print(123)""" # This have Expr instance because print is called
-parsed_ast =  ast.parse(content)
+    print(123)"""  # This have Expr instance because print is called
+parsed_ast = ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
 
-""" 
+"""
 class ast.UnaryOp(op, operand)
 op: will be one of these class below.
 operand: will be the operand(constant or name most of the time)
@@ -60,7 +60,7 @@ x = 5
 
 # UAdd
 content = "+5"
-parsed_ast =  ast.parse(content)
+parsed_ast = ast.parse(content)
 print()
 print("--- UnaryOp ---")
 print()
@@ -68,19 +68,19 @@ print(ast.dump(parsed_ast, indent=4))
 
 # USub
 content = "-5"
-parsed_ast =  ast.parse(content)
+parsed_ast = ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
 x = 1
 print(~x)
 
 # Not
 content = "not 5"
-parsed_ast =  ast.parse(content)
+parsed_ast = ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
 
 # Invert
 content = "~v"
-parsed_ast =  ast.parse(content)
+parsed_ast = ast.parse(content)
 print(ast.dump(parsed_ast, indent=4))
 
 
@@ -105,8 +105,8 @@ class ast.MatMult: @ (new op?)
 Binary operator tokens.
 """
 
-content = "2 + 8" 
-parsed_ast =  ast.parse(content) # op will be Add
+content = "2 + 8"
+parsed_ast = ast.parse(content)  # op will be Add
 print()
 print("--- BinOp ---")
 print()
@@ -124,10 +124,10 @@ class ast.Or
 Boolean operator tokens.
 """
 
-content = "9 or 10" 
-parsed_ast =  ast.parse(content) 
+content = "9 or 10"
+parsed_ast = ast.parse(content)
 # op will be Or
-# values contains Constant instances 
+# values contains Constant instances
 print(ast.dump(parsed_ast, indent=4))
 
 
@@ -145,12 +145,12 @@ class ast.Gt: >
 class ast.GtE: >=
 class ast.Is: is
 class ast.IsNot: is not
-class ast.In: in 
+class ast.In: in
 class ast.NotIn: not in
 """
 
-content = "0 > 10 <= 15" 
-parsed_ast =  ast.parse(content)
+content = "0 > 10 <= 15"
+parsed_ast = ast.parse(content)
 # left will be 0
 # ops will be Gt and LtE
 # comparators will be 10 and 15
@@ -162,11 +162,11 @@ print(ast.dump(parsed_ast, indent=4))
 # class ast.Call(func, args, keywords)
 """
 func: is the function being called.
-args: positional arg(Name) and *args(Starred) will be here. 
+args: positional arg(Name) and *args(Starred) will be here.
 keywords: keyword args and **kwargs will be in Keyword class here.
 """
-content = "func(c, a = b, *args, **kwargs)" 
-parsed_ast =  ast.parse(content)
+content = "func(c, a = b, *args, **kwargs)"
+parsed_ast = ast.parse(content)
 # func will be func
 # args will be c and args
 # keywords will a, kwargs
@@ -178,11 +178,11 @@ print(ast.dump(parsed_ast, indent=4))
 # class ast.keyword(arg, value)
 """
 A keyword argument to a function call or class definition.
-arg: will be keyword name if there is. 
+arg: will be keyword name if there is.
 value: is value.
 """
-content = "func(a = b)" 
-parsed_ast =  ast.parse(content)
+content = "func(a = b)"
+parsed_ast = ast.parse(content)
 # arg will be a
 # value will be b
 print()
@@ -198,22 +198,22 @@ body: will be 1
 orelse: will be 2
 """
 
-content = "1 if a == 0 else 2" 
-parsed_ast =  ast.parse(content)
+content = "1 if a == 0 else 2"
+parsed_ast = ast.parse(content)
 print("--- IfExp ---")
 print(ast.dump(parsed_ast, indent=4))
 
 # class ast.Attribute(value, attr, ctx)
 """
-attribute access like instance.width. 
+attribute access like instance.width.
 method call will be here in Call class
 value: will be instance(typically Name)
 attr: will be width in this case
 ctx: is the same as Name one
 """
 
-content = "instance.width" 
-parsed_ast =  ast.parse(content)
+content = "instance.width"
+parsed_ast = ast.parse(content)
 print()
 print("--- Attribute ---")
 print()
@@ -226,7 +226,7 @@ target: result in this case
 value:  n * 2 (BinOp) in this case
 """
 content = "print(result := n * 2)"
-parsed_ast =  ast.parse(content)
+parsed_ast = ast.parse(content)
 print()
 print("--- NamedExpr ---")
 print()

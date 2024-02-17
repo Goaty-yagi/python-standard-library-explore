@@ -1,7 +1,7 @@
 import ast
 
 """
-Instances of ast.expr and ast.stmt subclasses have 
+Instances of ast.expr and ast.stmt subclasses have
 1, lineno,
 2, col_offset,
 3, end_lineno,
@@ -15,7 +15,7 @@ for i in range(5):
     print("{:d}".format(i))
 """
 
-parsed_ast = ast.parse(code) # This is Module instance
+parsed_ast = ast.parse(code)  # This is Module instance
 instance = parsed_ast.body[0]
 print("This instance is from For class: ", isinstance(instance, ast.For))
 print("For instance is subclass of stmt class:", issubclass(ast.For, ast.stmt))

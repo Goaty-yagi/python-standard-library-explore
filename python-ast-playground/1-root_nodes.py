@@ -1,6 +1,6 @@
 import ast
 
-""" class ast.Module(body, type_ignores) 
+""" class ast.Module(body, type_ignores)
 
 The class ast.Module in the ast module of
 Python represents the top-level structure of
@@ -30,9 +30,12 @@ Module(
 """
 print(parsed_ast._fields)  # (body, type_ignores)
 """
-body: A list of AST nodes representing the statements and expressions within the module.
-type_ignores: A list of type ignore instance includes comments associated with the module.(mainly designed for typing)
-When you add # type: ignore to a line in your code, it signals to the type checker(such as mypy)
+body: A list of AST nodes representing the statements
+and expressions within the module.
+type_ignores: A list of type ignore instance includes
+comments associated with the module.(mainly designed for typing)
+When you add # type: ignore to a line in your code, it
+signals to the type checker(such as mypy)
 that it should skip type checking for that particular line.
 This can be useful in scenarios where the type checker
 might have difficulty inferring or verifying types accurately.
@@ -67,6 +70,6 @@ print()
 print("---- ast.Interactive ----")
 print()
 
-""" class ast.Interactive(body) 
+""" class ast.Interactive(body)
 it designed for codes entered interactively
 """

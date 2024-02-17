@@ -11,7 +11,7 @@ Explore and learn about the functionalities of the Python Standard Library! This
 
 ## Conventional Commits
 This project follows the conventional commits specification for commit messages.
-You can find more details from [Conventional Commits](https://github.com/Goaty-yagi/holbertonschool-higher_level_programming/blob/main/CONVENTIONAL_COMMITS.md).
+You can find more details from [Conventional Commits](https://github.com/Goaty-yagi/python-standard-library-explore/blob/main/CONVENTIONAL_COMMITS.md).
 
 ## Code Formatting and Style
 This project follows the Pycodestyle (formerly known as pep8) code style guidelines to maintain consistent and readable code. Pycodestyle is a tool to check your Python code against some of the style conventions in [PEP 8](https://www.python.org/dev/peps/pep-0008/).

@@ -11,7 +11,7 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     Attributes:
     - sum: Total count of nodes visited.
-    - attr_reset: Boolean to check if attributes need to reset. 
+    - attr_reset: Boolean to check if attributes need to reset.
     - last_node: Last node of the initial node.
     - node_count: Dictionary to store counts of different node types.
     - format_values: List to store format value to check specifiers.
@@ -147,20 +147,22 @@ class CustomNodeVisitor(ast.NodeVisitor):
         - attr(str): The attribute name.
 
         Return:
-        - Error message string. 
+        - Error message string.
         """
         return f"Attribute '{attr}' is read-only."
 
     def visit(self, node: ast.AST, *args) -> dict[str: int] | None:
         """
-        Visits the given AST node and returns counts for a specified subset of keys, if provided.
+        Visits the given AST node and returns counts for
+        a specified subset of keys, if provided.
 
         Parameters:
         - node: AST node to visit.
         - *args: Subset of keys to count.
 
         Returns:
-        - None if no subset keys provided, or a dictionary containing counts for the specified subset keys.
+        - None if no subset keys provided, or a dictionary
+        containing counts for the specified subset keys.
         """
         if self.__attr_reset:
             self.reset_attributes()
@@ -175,7 +177,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     def generic_visit(self, node: ast.AST) -> None:
         """
-        A generic visit method that increments the node count and continues the traversal.
+        A generic visit method that increments
+        the node count and continues the traversal.
 
         Parameters:
         - node: AST node to visit.
@@ -185,7 +188,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     def get_counts_subset(self, *key_list: list[str]) -> dict[str: int]:
         """
-        Returns a dictionary containing counts for the specified subset of keys.
+        Returns a dictionary containing counts for
+        the specified subset of keys.
 
         Parameters:
         - *key_list: Subset of keys to count.
@@ -201,14 +205,16 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     def format_specifier_check(self, specifier: str = "", node: ast.AST = {},):
         """
-        Checks if a specific format specifier is present in any of the format values.
+        Checks if a specific format specifier is present
+        in any of the format values.
 
         Parameters:
         - node: AST node being processed.
         - specifier: Format specifier to check.
 
         Returns:
-        - True if the specifier is present in any format value, False otherwise.
+        - True if the specifier is present in any format value,
+        False otherwise.
         """
         if specifier == '':
             raise ValueError("specifier argument is missing.")
@@ -219,7 +225,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     def set_last_node(self, node) -> None:
         """
-        Sets the last_node attribute to the last child node of the given AST node's body.
+        Sets the last_node attribute to the last child node
+        of the given AST node's body.
 
         Parameters:
         - node: AST node to determine the last child node.
@@ -230,7 +237,8 @@ class CustomNodeVisitor(ast.NodeVisitor):
 
     def reset_attributes(self) -> None:
         """
-        Resets all attributes of the CustomNodeVisitor instance to their default values.
+        Resets all attributes of the CustomNodeVisitor
+        instance to their default values.
         """
         for key in vars(self):
             setattr(self, key, CustomNodeVisitor().__getattribute__(key))
